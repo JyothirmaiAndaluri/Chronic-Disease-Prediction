@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login - PrediHealth</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+  font-family: 'Outfit', sans-serif;
+}
+.glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px);
+}
+.input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.input:focus {
+  border-color: #38bdf8;
+  outline: none;
+}
+.btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+}
+</style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+
+<div class="glass p-10 rounded-3xl w-96">
+
+<h2 class="text-2xl text-center mb-6">Login</h2>
+
+<form onsubmit="handleLogin(event)" class="space-y-4">
+
+<input type="email" placeholder="Email" class="input w-full p-4 rounded-xl" required>
+<input type="password" placeholder="Password" class="input w-full p-4 rounded-xl" required>
+
+<p id="error" class="text-red-400 text-sm hidden"></p>
+
+<button id="btn" class="btn w-full py-3 rounded-xl">Sign In</button>
+
+</form>
+
+<p class="text-center mt-4 text-cyan-400 cursor-pointer"
+onclick="window.location.href='forgot-password.html'">
+Forgot Password?
+</p>
+
+</div>
+
+<script>
+const BASE_URL = "http://127.0.0.1:8000/auth";
+
+async function handleLogin(e){
+  e.preventDefault();
+
+  const inputs = document.querySelectorAll("input");
+  const email = inputs[0].value;
+  const password = inputs[1].value;
+
+  const error = document.getElementById("error");
+  error.classList.add("hidden");
+
+  const btn = document.getElementById("btn");
+  btn.innerText = "Signing in...";
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${BASE_URL}/login`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (data.access_token) {
+      localStorage.setItem("token", data.access_token);
+      window.location.href = "dashboard.html";
+    } else {
+      error.innerText = data.error;
+      error.classList.remove("hidden");
+    }
+
+  } catch {
+    error.innerText = "Server error";
+    error.classList.remove("hidden");
+  }
+
+  btn.innerText = "Sign In";
+  btn.disabled = false;
+}
+</script>
+
+</body>
+</html>

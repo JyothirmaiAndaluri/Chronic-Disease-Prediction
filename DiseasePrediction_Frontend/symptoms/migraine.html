@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Migraine Assessment</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body class="p-6">
+
+<div class="flex items-center gap-4 mb-6">
+
+  <button onclick="goBack()" 
+    class="text-xl px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-700">
+    ←
+  </button>
+
+  <h1 class="text-2xl text-cyan-400 font-semibold">
+    🧠 Migraine Assessment
+  </h1>
+
+</div>
+
+<form id="form" class="grid md:grid-cols-2 gap-6">
+
+<!-- AGE -->
+<div class="card p-4 rounded-xl">
+  <label>Age</label>
+  <input type="number" id="age" class="w-full p-2 mt-2 bg-gray-800 rounded" required>
+</div>
+
+<!-- DURATION -->
+<div class="card p-4 rounded-xl">
+  <label>Duration</label>
+  <select id="duration" class="w-full p-2 mt-2 bg-gray-800 rounded">
+    <option value="1">Short</option>
+    <option value="2">Medium</option>
+    <option value="3">Long</option>
+  </select>
+</div>
+
+<!-- FREQUENCY -->
+<div class="card p-4 rounded-xl">
+  <label>Frequency (1-5)</label>
+  <input type="range" min="1" max="5" id="frequency" class="w-full">
+</div>
+
+<!-- LOCATION -->
+<div class="card p-4 rounded-xl">
+  <label>Location</label>
+  <select id="location" class="w-full p-2 mt-2 bg-gray-800 rounded">
+    <option value="0">Whole Head</option>
+    <option value="1">One Side</option>
+    <option value="2">Both Sides</option>
+    <option value="3">Front</option>
+    <option value="4">Back</option>
+  </select>
+</div>
+
+<!-- CHARACTER -->
+<div class="card p-4 rounded-xl">
+  <label>Character</label>
+  <select id="character" class="w-full p-2 mt-2 bg-gray-800 rounded">
+    <option value="1">Throbbing</option>
+    <option value="2">Pressing</option>
+    <option value="3">Sharp</option>
+  </select>
+</div>
+
+<!-- INTENSITY -->
+<div class="card p-4 rounded-xl">
+  <label>Intensity</label>
+  <select id="intensity" class="w-full p-2 mt-2 bg-gray-800 rounded">
+    <option value="1">Mild</option>
+    <option value="2">Moderate</option>
+    <option value="3">Severe</option>
+  </select>
+</div>
+
+<!-- VISUAL -->
+<div class="card p-4 rounded-xl">
+  <label>Visual Disturbance</label>
+  <input type="range" min="0" max="4" id="visual">
+</div>
+
+<!-- SENSORY -->
+<div class="card p-4 rounded-xl">
+  <label>Sensory</label>
+  <input type="range" min="0" max="2" id="sensory">
+</div>
+
+<!-- SYMPTOMS -->
+<div class="card p-4 rounded-xl col-span-2">
+  <h3 class="mb-4 text-cyan-400">Symptoms</h3>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+    <label><input type="checkbox" id="nausea"> Nausea</label>
+    <label><input type="checkbox" id="vomit"> Vomiting</label>
+    <label><input type="checkbox" id="phonophobia"> Sound Sensitivity</label>
+    <label><input type="checkbox" id="photophobia"> Light Sensitivity</label>
+
+    <!-- FIXED LABELS -->
+    <label><input type="checkbox" id="dizziness"> Dizziness</label>
+    <label><input type="checkbox" id="ear_ringing"> Ear Ringing</label>
+
+    <label><input type="checkbox" id="hypoacusis"> Hearing Loss</label>
+    <label><input type="checkbox" id="diplopia"> Double Vision</label>
+    <label><input type="checkbox" id="defect"> Vision Defect</label>
+    <label><input type="checkbox" id="ataxia"> Balance Issue</label>
+    <label><input type="checkbox" id="conscience"> Loss of Consciousness</label>
+    <label><input type="checkbox" id="paresthesia"> Tingling Sensation</label>
+    <label><input type="checkbox" id="dpf"> Family History</label>
+
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="col-span-2 text-center mt-6">
+  <button type="submit" class="btn px-10 py-3 rounded-xl font-semibold">
+    Predict Migraine
+  </button>
+</div>
+
+</form>
+
+<script>
+
+document.getElementById("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const data = {
+    age: +age.value,
+    duration: +duration.value,
+    frequency: +frequency.value,
+    location: +location.value,
+    character: +character.value,
+    intensity: +intensity.value,
+    visual: +visual.value,
+    sensory: +sensory.value,
+
+    nausea: nausea.checked ? 1 : 0,
+    vomit: vomit.checked ? 1 : 0,
+    phonophobia: phonophobia.checked ? 1 : 0,
+    photophobia: photophobia.checked ? 1 : 0,
+
+    // ✅ MAPPING FIXED
+    vertigo: dizziness.checked ? 1 : 0,
+    tinnitus: ear_ringing.checked ? 1 : 0,
+
+    hypoacusis: hypoacusis.checked ? 1 : 0,
+    diplopia: diplopia.checked ? 1 : 0,
+    defect: defect.checked ? 1 : 0,
+    ataxia: ataxia.checked ? 1 : 0,
+    conscience: conscience.checked ? 1 : 0,
+    paresthesia: paresthesia.checked ? 1 : 0,
+    dpf: dpf.checked ? 1 : 0
+  };
+
+  console.log("Final Model Data:", data);
+
+  alert("Form working perfectly ✅\nCheck console for data");
+});
+function goBack() {
+  window.location.href = "../dashboard.html";
+}
+
+</script>
+
+</body>
+</html>

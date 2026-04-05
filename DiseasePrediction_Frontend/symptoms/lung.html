@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lung Cancer Assessment</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body class="p-6">
+<div class="flex items-center gap-4 mb-6">
+
+  <button onclick="goBack()" 
+    class="text-xl px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-700">
+    ←
+  </button>
+
+  <h1 class="text-2xl text-cyan-400 font-semibold">
+    🫁 Lung Cancer Assessment
+  </h1>
+
+</div>
+
+
+<form id="form" class="grid md:grid-cols-2 gap-6">
+
+<!-- AGE -->
+<div class="card p-4 rounded-xl">
+  <label>Age</label>
+  <input type="number" id="age" min="18" max="100"
+    class="w-full p-2 mt-2 bg-gray-800 rounded" required>
+</div>
+
+<!-- GENDER -->
+<div class="card p-4 rounded-xl">
+  <label>Gender</label>
+  <select id="gender" class="w-full p-2 mt-2 bg-gray-800 rounded">
+    <option value="1">Male</option>
+    <option value="0">Female</option>
+  </select>
+</div>
+
+<!-- SYMPTOMS -->
+<div class="card p-4 rounded-xl col-span-2">
+  <h3 class="mb-4 text-cyan-400">Symptoms</h3>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+
+    <label><input type="checkbox" id="smoking"> Smoking</label>
+    <label><input type="checkbox" id="yellow_fingers"> Yellow Fingers</label>
+    <label><input type="checkbox" id="anxiety"> Anxiety</label>
+    <label><input type="checkbox" id="peer_pressure"> Peer Pressure</label>
+    <label><input type="checkbox" id="chronic"> Chronic Disease</label>
+    <label><input type="checkbox" id="fatigue"> Fatigue</label>
+    <label><input type="checkbox" id="allergy"> Allergy</label>
+    <label><input type="checkbox" id="wheezing"> Wheezing</label>
+    <label><input type="checkbox" id="alcohol"> Alcohol Consumption</label>
+    <label><input type="checkbox" id="coughing"> Coughing</label>
+    <label><input type="checkbox" id="breath"> Shortness of Breath</label>
+    <label><input type="checkbox" id="swallowing"> Swallowing Difficulty</label>
+    <label><input type="checkbox" id="chest_pain"> Chest Pain</label>
+
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="col-span-2 text-center mt-6">
+  <button type="submit" class="btn px-10 py-3 rounded-xl font-semibold">
+    Predict Lung Cancer Risk
+  </button>
+</div>
+
+</form>
+
+<script>
+
+document.getElementById("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const data = {
+    age: +age.value,
+    gender: +gender.value,
+
+    // ✅ Mapping UI → MODEL FEATURES
+    smoking: smoking.checked ? 1 : 0,
+    yellow_fingers: yellow_fingers.checked ? 1 : 0,
+    anxiety: anxiety.checked ? 1 : 0,
+    peer_pressure: peer_pressure.checked ? 1 : 0,
+    chronic_disease: chronic.checked ? 1 : 0,
+    fatigue: fatigue.checked ? 1 : 0,
+    allergy: allergy.checked ? 1 : 0,
+    wheezing: wheezing.checked ? 1 : 0,
+    alcohol_consuming: alcohol.checked ? 1 : 0,
+    coughing: coughing.checked ? 1 : 0,
+    shortness_of_breath: breath.checked ? 1 : 0,
+    swallowing_difficulty: swallowing.checked ? 1 : 0,
+    chest_pain: chest_pain.checked ? 1 : 0
+  };
+
+  console.log("Lung Model Input:", data);
+
+  alert("Lung Cancer form ready ✅\nCheck console for data");
+});
+function goBack() {
+  window.location.href = "../dashboard.html";
+}
+</script>
+
+</body>
+</html>
