@@ -203,49 +203,60 @@ function goBack(){
   window.location.href = "../dashboard.html";
 }
 
-document.getElementById("form").addEventListener("submit", e => {
+document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = {
-    age: +age.value,
-    gender: +gender.value,
-    ethnicity: +ethnicity.value,
-    education: +education.value,
-    bmi: +bmi.value,
+    "Age": +age.value,
+    "Gender": +gender.value,
+    "Ethnicity": +ethnicity.value,
+    "EducationLevel": +education.value,
+    "BMI": +bmi.value,
 
-    smoking: smoking.checked ? 1 : 0,
-    alcohol: +alcohol.value,
-    physical_activity: +activity.value,
-    diet_quality: +diet.value,
-    sleep_quality: +sleep.value,
+    "Smoking": smoking.checked ? 1 : 0,
+    "AlcoholConsumption": +alcohol.value,
+    "PhysicalActivity": +activity.value,
+    "DietQuality": +diet.value,
+    "SleepQuality": +sleep.value,
 
-    family_history: family.checked ? 1 : 0,
-    heart_disease: heart.checked ? 1 : 0,
-    diabetes: diabetes.checked ? 1 : 0,
-    depression: depression.checked ? 1 : 0,
-    head_injury: injury.checked ? 1 : 0,
-    high_bp: bp.checked ? 1 : 0,
+    "FamilyHistoryAlzheimers": family.checked ? 1 : 0,
+    "CardiovascularDisease": heart.checked ? 1 : 0,
+    "Diabetes": diabetes.checked ? 1 : 0,
+    "Depression": depression.checked ? 1 : 0,
+    "HeadInjury": injury.checked ? 1 : 0,
+    "Hypertension": bp.checked ? 1 : 0,
 
-    memory_score: +memory.value * 6,
-
-    independence: +independence.value,
-    personal_care: +care.value,
-
-    fatty_food: +fat.value,
-    sugar: +sugar.value,
-
-    memory_complaints: memory_loss.checked ? 1 : 0,
-    behavioral: behavior.checked ? 1 : 0,
-    confusion: confusion.checked ? 1 : 0,
-    disorientation: disorientation.checked ? 1 : 0,
-    personality_change: personality.checked ? 1 : 0,
-    difficulty_tasks: tasks.checked ? 1 : 0,
-    forgetfulness: forget.checked ? 1 : 0
+    "MemoryComplaints": memory_loss.checked ? 1 : 0,
+    "BehavioralProblems": behavior.checked ? 1 : 0,
+    "Confusion": confusion.checked ? 1 : 0,
+    "Disorientation": disorientation.checked ? 1 : 0,
+    "PersonalityChanges": personality.checked ? 1 : 0,
+    "DifficultyCompletingTasks": tasks.checked ? 1 : 0,
+    "Forgetfulness": forget.checked ? 1 : 0
   };
 
-  console.log("Alzheimer Model Input:", data);
-  alert("Form working perfectly ✅");
-});
+  try {
+    const res = await fetch("http://127.0.0.1:8000/predict-alzheimers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    localStorage.setItem("result_data", JSON.stringify({
+      disease: "Alzheimer's",
+      data: result.data
+    }));
+
+    window.location.href = "../result.html";
+
+  } catch (err) {
+    alert("Server error ❌");
+    console.error(err);
+  }
+
+}); // ✅ THIS WAS MISSING
 
 </script>
 

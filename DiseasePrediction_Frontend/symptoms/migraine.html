@@ -147,44 +147,63 @@ body {
 </div>
 
 </form>
-
 <script>
 
-document.getElementById("form").addEventListener("submit", (e) => {
+document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = {
-    age: +age.value,
-    duration: +duration.value,
-    frequency: +frequency.value,
-    location: +location.value,
-    character: +character.value,
-    intensity: +intensity.value,
-    visual: +visual.value,
-    sensory: +sensory.value,
+    "Age": +age.value,
+    "Duration": +duration.value,
+    "Frequency": +frequency.value,
+    "Location": +location.value,
+    "Character": +character.value,
+    "Intensity": +intensity.value,
+    "Visual": +visual.value,
+    "Sensory": +sensory.value,
 
-    nausea: nausea.checked ? 1 : 0,
-    vomit: vomit.checked ? 1 : 0,
-    phonophobia: phonophobia.checked ? 1 : 0,
-    photophobia: photophobia.checked ? 1 : 0,
+    "Nausea": nausea.checked ? 1 : 0,
+    "Vomit": vomit.checked ? 1 : 0,
+    "Phonophobia": phonophobia.checked ? 1 : 0,
+    "Photophobia": photophobia.checked ? 1 : 0,
 
-    // ✅ MAPPING FIXED
-    vertigo: dizziness.checked ? 1 : 0,
-    tinnitus: ear_ringing.checked ? 1 : 0,
+    "Vertigo": dizziness.checked ? 1 : 0,
+    "Tinnitus": ear_ringing.checked ? 1 : 0,
 
-    hypoacusis: hypoacusis.checked ? 1 : 0,
-    diplopia: diplopia.checked ? 1 : 0,
-    defect: defect.checked ? 1 : 0,
-    ataxia: ataxia.checked ? 1 : 0,
-    conscience: conscience.checked ? 1 : 0,
-    paresthesia: paresthesia.checked ? 1 : 0,
-    dpf: dpf.checked ? 1 : 0
+    "Hypoacusis": hypoacusis.checked ? 1 : 0,
+    "Diplopia": diplopia.checked ? 1 : 0,
+    "Defect": defect.checked ? 1 : 0,
+    "Ataxia": ataxia.checked ? 1 : 0,
+    "Conscience": conscience.checked ? 1 : 0,
+    "Paresthesia": paresthesia.checked ? 1 : 0,
+    "DPF": dpf.checked ? 1 : 0
   };
 
-  console.log("Final Model Data:", data);
+  try {
+    const res = await fetch("http://127.0.0.1:8000/predict-migraine", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
 
-  alert("Form working perfectly ✅\nCheck console for data");
+    const result = await res.json();
+
+    // ✅ STORE RESULT (IMPORTANT)
+    localStorage.setItem("result_data", JSON.stringify({
+      disease: "Migraine",
+      data: result.data
+    }));
+
+    // ✅ REDIRECT
+    window.location.href = "../result.html";
+
+  } catch (err) {
+    alert("Server error ❌");
+  }
 });
+
 function goBack() {
   window.location.href = "../dashboard.html";
 }

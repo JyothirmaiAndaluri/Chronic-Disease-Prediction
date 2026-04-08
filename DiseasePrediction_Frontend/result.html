@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Result</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body class="p-4">
+
+<h1 id="title" class="text-2xl text-white text-center font-bold"></h1>
+
+<div class="card text-center">
+  <h2 class="text-xl font-semibold">Risk</h2>
+  <p id="risk" class="text-3xl text-red-500"></p>
+  <p id="level"></p>
+</div>
+
+<div class="card">
+  <h2 class="text-xl font-semibold">Clinical Details</h2>
+  <div id="details"></div>
+</div>
+
+
+<script>
+const stored = JSON.parse(localStorage.getItem("result_data"));
+
+if (!stored) {
+  alert("No result found ❌");
+}
+
+const { disease, data } = stored;
+
+// BASIC INFO
+document.getElementById("title").innerText = disease + " Assessment";
+// Handle different diseases
+let riskValue = data.risk_probability || data.risk_score || data.confidence || 0;
+
+document.getElementById("risk").innerText = riskValue + "%";document.getElementById("level").innerText = data.risk_level;
+
+let driversHTML = "";
+let protectHTML = "";
+
+// ================= DIABETES =================
+if (disease === "Diabetes") {
+
+  const explanations = {
+    "Polyuria": "Excessive urination, a primary sign of high blood glucose levels.",
+    "Polydipsia": "Increased thirst due to fluid imbalance.",
+    "sudden weight loss": "Unexpected weight loss may indicate metabolic imbalance.",
+    "weakness": "Low energy levels may be linked to glucose issues.",
+    "Polyphagia": "Excessive hunger due to poor glucose utilization.",
+    "Genital thrush": "Infections may indicate high sugar levels.",
+    "visual blurring": "Blurred vision can result from blood sugar changes.",
+    "Itching": "Skin irritation may be related to diabetes.",
+    "Irritability": "Mood changes associated with glucose fluctuations.",
+    "delayed healing": "Slow healing is a common diabetic symptom.",
+    "partial paresis": "Nerve weakness due to prolonged diabetes.",
+    "muscle stiffness": "Possible nerve or muscle complications.",
+    "Alopecia": "Hair loss linked to metabolic imbalance.",
+    "Obesity": "Major risk factor for diabetes.",
+    "Age": "Higher age increases diabetes risk."
+  };
+
+  driversHTML = (data.top_drivers || []).map(d =>
+    `<li>- ${d}: ${explanations[d] || "Contributes to risk"}</li>`
+  ).join("");
+
+  protectHTML = (data.protective_factors || []).map(f =>
+    `<li>- ${f}: No symptoms reported</li>`
+  ).join("");
+}
+// ================= MIGRAINE (NEW 🔥) =================
+else if (disease === "Migraine") {
+
+  const explanations = {
+    "Age": "Age influences migraine patterns and severity.",
+    "Duration": "Longer episodes indicate severe migraine.",
+    "Frequency": "Frequent headaches increase risk level.",
+    "Location": "Pain location helps classify migraine type.",
+    "Character": "Throbbing or sharp pain indicates migraine subtype.",
+    "Intensity": "Higher intensity reflects severe condition.",
+    "Visual": "Visual disturbances (aura) present.",
+    "Sensory": "Sensory symptoms indicate neurological involvement.",
+    "Nausea": "Common symptom during migraine attack.",
+    "Vomit": "Severe migraine may cause vomiting.",
+    "Phonophobia": "Sensitivity to sound.",
+    "Photophobia": "Sensitivity to light.",
+    "Vertigo": "Balance issues linked to brainstem involvement.",
+    "Tinnitus": "Ringing in ears indicates neurological effect.",
+    "Hypoacusis": "Reduced hearing ability.",
+    "Diplopia": "Double vision indicates nerve involvement.",
+    "Defect": "Visual field defect observed.",
+    "Ataxia": "Coordination problems detected.",
+    "Conscience": "Loss of awareness in severe cases.",
+    "Paresthesia": "Tingling sensation indicates nerve activity.",
+    "DPF": "Family history increases migraine risk."
+  };
+
+  driversHTML = (data.top_drivers || []).map(d =>
+    `<li>- ${d}: ${explanations[d] || "Key clinical factor"}</li>`
+  ).join("");
+
+  protectHTML = (data.protective_factors || []).map(f =>
+    `<li>- ${f}: No symptoms reported</li>`
+  ).join("");
+}
+
+
+// ================= ALZHEIMERS =================
+else if (disease === "Alzheimer's") {
+
+  const explanations = {
+    "MemoryComplaints": "Subjective memory loss reported.",
+    "BehavioralProblems": "Changes in behavior observed.",
+    "Confusion": "Episodes of confusion detected.",
+    "Disorientation": "Loss of awareness of surroundings.",
+    "FamilyHistoryAlzheimers": "Genetic predisposition.",
+    "MMSE": "Cognitive score indicates impairment.",
+    "FunctionalAssessment": "Daily functioning ability reduced.",
+    "ADL": "Reduced independence in daily activities."
+  };
+
+  driversHTML = (data.top_drivers || []).map(d =>
+    `<li>- ${d}: ${explanations[d] || "Risk factor detected"}</li>`
+  ).join("");
+
+  protectHTML = (data.protective_factors || []).map(f =>
+    `<li>- ${f}: Stable condition observed</li>`
+  ).join("");
+}
+// ================= STROKE (NEW ✅) =================
+else if (disease === "Stroke") {
+
+  const explanations = {
+    "Chest Pain": "Indicates possible cardiovascular stress.",
+    "Shortness of Breath": "Reduced oxygen supply affecting brain function.",
+    "Irregular Heartbeat": "May lead to clot formation and stroke risk.",
+    "Fatigue & Weakness": "General body weakness linked to circulation issues.",
+    "Dizziness": "Reduced blood flow to brain.",
+    "Swelling (Edema)": "Fluid retention affecting circulation.",
+    "Pain in Neck/Jaw/Shoulder/Back": "Referred pain linked to heart conditions.",
+    "Excessive Sweating": "Stress response of cardiovascular system.",
+    "Persistent Cough": "May indicate underlying respiratory/cardiac issue.",
+    "Nausea/Vomiting": "Can be associated with neurological imbalance.",
+    "High Blood Pressure": "Major risk factor for stroke.",
+    "Chest Discomfort (Activity)": "Indicates exertion-related cardiac stress.",
+    "Cold Hands/Feet": "Poor blood circulation.",
+    "Snoring/Sleep Apnea": "Linked to oxygen deprivation during sleep.",
+    "Anxiety/Feeling of Doom": "Stress-related cardiovascular trigger."
+  };
+
+  driversHTML = (data.top_drivers || []).map(d =>
+    `<li>- ${d}: ${explanations[d] || "Risk factor detected"}</li>`
+  ).join("");
+
+  protectHTML = (data.protective_factors || []).map(f =>
+    `<li>- ${f}: No symptoms reported</li>`
+  ).join("");
+}
+// ================= LUNG CANCER (NEW 🔥) =================
+else if (disease === "Lung Cancer") {
+
+  const explanations = {
+    "SMOKING": "Tobacco use is a primary driver of lung cancer risk.",
+    "YELLOW_FINGERS": "Indicates long-term nicotine exposure.",
+    "ANXIETY": "Psychological stress observed.",
+    "PEER_PRESSURE": "Social influence affecting lifestyle habits.",
+    "CHRONIC_DISEASE": "Existing conditions impacting lung health.",
+    "FATIGUE": "Persistent exhaustion is a systemic symptom.",
+    "ALLERGY": "Respiratory hypersensitivity detected.",
+    "WHEEZING": "Airway obstruction or breathing difficulty.",
+    "ALCOHOL_CONSUMING": "Lifestyle factor increasing risk.",
+    "COUGHING": "Persistent cough may indicate lung issues.",
+    "SHORTNESS_OF_BREATH": "Difficulty breathing reported.",
+    "SWALLOWING_DIFFICULTY": "Possible internal pressure or complications.",
+    "CHEST_PAIN": "Thoracic pain requiring medical evaluation."
+  };
+
+  driversHTML = (data.top_drivers || []).map(d =>
+    `<li>- ${d.replaceAll("_"," ")}: ${explanations[d] || "Risk factor detected"}</li>`
+  ).join("");
+
+  protectHTML = (data.protective_factors || []).map(f =>
+    `<li>- ${f.replaceAll("_"," ")}: No symptoms reported</li>`
+  ).join("");
+}
+
+// ================= RENDER =================
+document.getElementById("details").innerHTML = `
+  <h3 class="font-semibold mt-2">Top Risk Drivers:</h3>
+  <ul>${driversHTML || "<li>None</li>"}</ul>
+
+  <h3 class="font-semibold mt-4">Protective Observations:</h3>
+  <ul>${protectHTML || "<li>None</li>"}</ul>
+`;
+</script>
+
+</body>
+</html>

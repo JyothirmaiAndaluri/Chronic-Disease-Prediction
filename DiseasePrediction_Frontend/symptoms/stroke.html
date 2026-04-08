@@ -88,35 +88,55 @@ body {
 </form>
 
 <script>
-
-document.getElementById("form").addEventListener("submit", (e) => {
+document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = {
-    age: +age.value,
+    "Age": parseInt(document.getElementById("age").value),
 
-    // ✅ Mapping UI → MODEL FEATURES
-    chest_pain: chest_pain.checked ? 1 : 0,
-    shortness_of_breath: breath.checked ? 1 : 0,
-    irregular_heartbeat: heartbeat.checked ? 1 : 0,
-    fatigue: fatigue.checked ? 1 : 0,
-    dizziness: dizziness.checked ? 1 : 0,
-    swelling: swelling.checked ? 1 : 0,
-    radiating_pain: radiating_pain.checked ? 1 : 0,
-    sweating: sweating.checked ? 1 : 0,
-    persistent_cough: cough.checked ? 1 : 0,
-    nausea: nausea.checked ? 1 : 0,
-    high_bp: bp.checked ? 1 : 0,
-    activity_pain: activity_pain.checked ? 1 : 0,
-    cold_extremities: cold.checked ? 1 : 0,
-    sleep_apnea: sleep.checked ? 1 : 0,
-    anxiety: anxiety.checked ? 1 : 0
+    "Chest Pain": document.getElementById("chest_pain").checked ? 1 : 0,
+    "Shortness of Breath": document.getElementById("breath").checked ? 1 : 0,
+    "Irregular Heartbeat": document.getElementById("heartbeat").checked ? 1 : 0,
+    "Fatigue & Weakness": document.getElementById("fatigue").checked ? 1 : 0,
+    "Dizziness": document.getElementById("dizziness").checked ? 1 : 0,
+    "Swelling (Edema)": document.getElementById("swelling").checked ? 1 : 0,
+    "Pain in Neck/Jaw/Shoulder/Back": document.getElementById("radiating_pain").checked ? 1 : 0,
+    "Excessive Sweating": document.getElementById("sweating").checked ? 1 : 0,
+    "Persistent Cough": document.getElementById("cough").checked ? 1 : 0,
+    "Nausea/Vomiting": document.getElementById("nausea").checked ? 1 : 0,
+    "High Blood Pressure": document.getElementById("bp").checked ? 1 : 0,
+    "Chest Discomfort (Activity)": document.getElementById("activity_pain").checked ? 1 : 0,
+    "Cold Hands/Feet": document.getElementById("cold").checked ? 1 : 0,
+    "Snoring/Sleep Apnea": document.getElementById("sleep").checked ? 1 : 0,
+    "Anxiety/Feeling of Doom": document.getElementById("anxiety").checked ? 1 : 0
   };
 
-  console.log("Stroke Model Input:", data);
+  try {
+    const res = await fetch("http://127.0.0.1:8000/predict-stroke", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
 
-  alert("Stroke form ready ✅\nCheck console for mapped data");
+    const result = await res.json();
+
+    // ✅ STORE RESULT (same format as others)
+    localStorage.setItem("result_data", JSON.stringify({
+      disease: "Stroke",
+      data: result.data
+    }));
+
+    // ✅ REDIRECT TO COMMON RESULT PAGE
+    window.location.href = "../result.html";
+
+  } catch (err) {
+    alert("Server error ❌");
+  }
 });
+
+// OPTIONAL (if not already defined somewhere)
 function goBack() {
   window.location.href = "../dashboard.html";
 }

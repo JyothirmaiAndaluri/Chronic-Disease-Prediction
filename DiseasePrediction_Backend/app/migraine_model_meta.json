@@ -1,0 +1,69 @@
+{
+  "model_name": "XGBoost",
+  "accuracy": 0.9942,
+  "cv_accuracy": 0.996,
+  "features": [
+    "Age",
+    "Duration",
+    "Frequency",
+    "Location",
+    "Character",
+    "Intensity",
+    "Nausea",
+    "Vomit",
+    "Phonophobia",
+    "Photophobia",
+    "Visual",
+    "Sensory",
+    "Dysphasia",
+    "Dysarthria",
+    "Vertigo",
+    "Tinnitus",
+    "Hypoacusis",
+    "Diplopia",
+    "Defect",
+    "Ataxia",
+    "Conscience",
+    "Paresthesia",
+    "DPF"
+  ],
+  "classes": [
+    "Basilar-type aura",
+    "Familial hemiplegic migraine",
+    "Migraine without aura",
+    "Other",
+    "Sporadic hemiplegic migraine",
+    "Typical aura with migraine",
+    "Typical aura without migraine"
+  ],
+  "risk_map": {
+    "Basilar-type aura": {
+      "score": 88,
+      "level": "\ud83d\udd34 VERY HIGH RISK"
+    },
+    "Familial hemiplegic migraine": {
+      "score": 78,
+      "level": "\ud83d\udd34 HIGH RISK"
+    },
+    "Sporadic hemiplegic migraine": {
+      "score": 73,
+      "level": "\ud83d\udd34 HIGH RISK"
+    },
+    "Typical aura with migraine": {
+      "score": 52,
+      "level": "\ud83d\udfe1 MODERATE RISK"
+    },
+    "Migraine without aura": {
+      "score": 45,
+      "level": "\ud83d\udfe1 MODERATE RISK"
+    },
+    "Typical aura without migraine": {
+      "score": 25,
+      "level": "\ud83d\udfe2 LOW RISK"
+    },
+    "Other": {
+      "score": 20,
+      "level": "\ud83d\udfe2 LOW RISK"
+    }
+  }
+}

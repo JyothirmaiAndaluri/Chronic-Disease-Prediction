@@ -96,39 +96,52 @@ body {
 </form>
 
 <script>
-
-document.getElementById("form").addEventListener("submit", (e) => {
+document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = {
-    age: +age.value,
-    gender: +gender.value,
+    "Age": parseInt(age.value),
+    "Gender": gender.value === "1" ? 2 : 1,
 
-    // ✅ UI → MODEL MAPPING
-    polyuria: frequent_urination.checked ? 1 : 0,
-    polydipsia: excessive_thirst.checked ? 1 : 0,
-    sudden_weight_loss: weight_loss.checked ? 1 : 0,
-    weakness: weakness.checked ? 1 : 0,
-    polyphagia: excessive_hunger.checked ? 1 : 0,
-    genital_thrush: infection.checked ? 1 : 0,
-    visual_blurring: blurred_vision.checked ? 1 : 0,
-    itching: itching.checked ? 1 : 0,
-    irritability: irritability.checked ? 1 : 0,
-    delayed_healing: slow_healing.checked ? 1 : 0,
-    partial_paresis: weak_muscles.checked ? 1 : 0,
-    muscle_stiffness: stiff_muscles.checked ? 1 : 0,
-    alopecia: hair_loss.checked ? 1 : 0,
-    obesity: obesity.checked ? 1 : 0
+    "Polyuria": frequent_urination.checked ? 2 : 1,
+    "Polydipsia": excessive_thirst.checked ? 2 : 1,
+    "sudden weight loss": weight_loss.checked ? 2 : 1,
+    "weakness": weakness.checked ? 2 : 1,
+    "Polyphagia": excessive_hunger.checked ? 2 : 1,
+    "Genital thrush": infection.checked ? 2 : 1,
+    "visual blurring": blurred_vision.checked ? 2 : 1,
+    "Itching": itching.checked ? 2 : 1,
+    "Irritability": irritability.checked ? 2 : 1,
+    "delayed healing": slow_healing.checked ? 2 : 1,
+    "partial paresis": weak_muscles.checked ? 2 : 1,
+    "muscle stiffness": stiff_muscles.checked ? 2 : 1,
+    "Alopecia": hair_loss.checked ? 2 : 1,
+    "Obesity": obesity.checked ? 2 : 1
   };
 
-  console.log("Diabetes Model Input:", data);
+  try {
+    const res = await fetch("http://127.0.0.1:8000/predict-diabetes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
-  alert("Diabetes form ready ✅\nCheck console for data");
+    const result = await res.json();
+    
+
+    // ✅ STORE RESULT
+    localStorage.setItem("result_data", JSON.stringify({
+      disease: "Diabetes",
+      data: result.data
+    }));
+
+    // ✅ REDIRECT TO COMMON PAGE
+    window.location.href = "../result.html";
+
+  } catch (err) {
+    alert("Server error ❌");
+  }
 });
-function goBack() {
-  window.location.href = "../dashboard.html";
-}
 </script>
-
 </body>
 </html>

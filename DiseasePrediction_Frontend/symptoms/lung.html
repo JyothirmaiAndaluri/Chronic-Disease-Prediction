@@ -96,34 +96,51 @@ body {
 </form>
 
 <script>
-
-document.getElementById("form").addEventListener("submit", (e) => {
+document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = {
-    age: +age.value,
-    gender: +gender.value,
+    "GENDER": parseInt(gender.value),   // ✅ FIXED
+    "AGE": parseInt(age.value),
 
-    // ✅ Mapping UI → MODEL FEATURES
-    smoking: smoking.checked ? 1 : 0,
-    yellow_fingers: yellow_fingers.checked ? 1 : 0,
-    anxiety: anxiety.checked ? 1 : 0,
-    peer_pressure: peer_pressure.checked ? 1 : 0,
-    chronic_disease: chronic.checked ? 1 : 0,
-    fatigue: fatigue.checked ? 1 : 0,
-    allergy: allergy.checked ? 1 : 0,
-    wheezing: wheezing.checked ? 1 : 0,
-    alcohol_consuming: alcohol.checked ? 1 : 0,
-    coughing: coughing.checked ? 1 : 0,
-    shortness_of_breath: breath.checked ? 1 : 0,
-    swallowing_difficulty: swallowing.checked ? 1 : 0,
-    chest_pain: chest_pain.checked ? 1 : 0
+    "SMOKING": smoking.checked ? 2 : 1,
+    "YELLOW_FINGERS": yellow_fingers.checked ? 2 : 1,
+    "ANXIETY": anxiety.checked ? 2 : 1,
+    "PEER_PRESSURE": peer_pressure.checked ? 2 : 1,
+    "CHRONIC_DISEASE": chronic.checked ? 2 : 1,
+    "FATIGUE": fatigue.checked ? 2 : 1,
+    "ALLERGY": allergy.checked ? 2 : 1,
+    "WHEEZING": wheezing.checked ? 2 : 1,
+    "ALCOHOL_CONSUMING": alcohol.checked ? 2 : 1,
+    "COUGHING": coughing.checked ? 2 : 1,
+    "SHORTNESS_OF_BREATH": breath.checked ? 2 : 1,
+    "SWALLOWING_DIFFICULTY": swallowing.checked ? 2 : 1,
+    "CHEST_PAIN": chest_pain.checked ? 2 : 1
   };
 
-  console.log("Lung Model Input:", data);
+  try {
+    const res = await fetch("http://127.0.0.1:8000/predict-lung", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
-  alert("Lung Cancer form ready ✅\nCheck console for data");
+    const result = await res.json();
+
+    // ✅ STORE RESULT (same as diabetes)
+    localStorage.setItem("result_data", JSON.stringify({
+      disease: "Lung Cancer",
+      data: result.data
+    }));
+
+    // ✅ REDIRECT
+    window.location.href = "../result.html";
+
+  } catch (err) {
+    alert("Server error ❌");
+  }
 });
+
 function goBack() {
   window.location.href = "../dashboard.html";
 }
