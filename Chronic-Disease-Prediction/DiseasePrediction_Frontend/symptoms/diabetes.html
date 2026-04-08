@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Diabetes Assessment</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body class="p-6">
+<div class="flex items-center gap-4 mb-6">
+
+  <button onclick="goBack()" 
+    class="text-xl px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-700">
+    ←
+  </button>
+
+  <h1 class="text-2xl text-cyan-400 font-semibold">
+    💉 Diabetes Assessment
+  </h1>
+
+</div>
+
+<form id="form" class="grid md:grid-cols-2 gap-6">
+
+<!-- AGE -->
+<div class="card p-4 rounded-xl">
+  <label>Age</label>
+  <input type="number" id="age" min="1" max="120"
+    class="w-full p-2 mt-2 bg-gray-800 rounded" required>
+</div>
+
+<!-- GENDER -->
+<div class="card p-4 rounded-xl">
+  <label>Gender</label>
+  <select id="gender" class="w-full p-2 mt-2 bg-gray-800 rounded">
+    <option value="1">Male</option>
+    <option value="0">Female</option>
+  </select>
+</div>
+
+<!-- SYMPTOMS -->
+<div class="card p-4 rounded-xl col-span-2">
+  <h3 class="mb-4 text-cyan-400">Symptoms</h3>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+
+    <label><input type="checkbox" id="frequent_urination"> Frequent Urination</label>
+    <label><input type="checkbox" id="excessive_thirst"> Excessive Thirst</label>
+    <label><input type="checkbox" id="weight_loss"> Sudden Weight Loss</label>
+    <label><input type="checkbox" id="weakness"> Weakness</label>
+    <label><input type="checkbox" id="excessive_hunger"> Excessive Hunger</label>
+    <label><input type="checkbox" id="infection"> Genital Infection</label>
+    <label><input type="checkbox" id="blurred_vision"> Blurred Vision</label>
+    <label><input type="checkbox" id="itching"> Skin Itching</label>
+    <label><input type="checkbox" id="irritability"> Irritability</label>
+    <label><input type="checkbox" id="slow_healing"> Slow Wound Healing</label>
+    <label><input type="checkbox" id="weak_muscles"> Partial Weakness</label>
+    <label><input type="checkbox" id="stiff_muscles"> Muscle Stiffness</label>
+    <label><input type="checkbox" id="hair_loss"> Hair Loss</label>
+    <label><input type="checkbox" id="obesity"> Obesity</label>
+
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="col-span-2 text-center mt-6">
+  <button type="submit" class="btn px-10 py-3 rounded-xl font-semibold">
+    Predict Diabetes Risk
+  </button>
+</div>
+
+</form>
+
+<script>
+
+document.getElementById("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const data = {
+    age: +age.value,
+    gender: +gender.value,
+
+    // ✅ UI → MODEL MAPPING
+    polyuria: frequent_urination.checked ? 1 : 0,
+    polydipsia: excessive_thirst.checked ? 1 : 0,
+    sudden_weight_loss: weight_loss.checked ? 1 : 0,
+    weakness: weakness.checked ? 1 : 0,
+    polyphagia: excessive_hunger.checked ? 1 : 0,
+    genital_thrush: infection.checked ? 1 : 0,
+    visual_blurring: blurred_vision.checked ? 1 : 0,
+    itching: itching.checked ? 1 : 0,
+    irritability: irritability.checked ? 1 : 0,
+    delayed_healing: slow_healing.checked ? 1 : 0,
+    partial_paresis: weak_muscles.checked ? 1 : 0,
+    muscle_stiffness: stiff_muscles.checked ? 1 : 0,
+    alopecia: hair_loss.checked ? 1 : 0,
+    obesity: obesity.checked ? 1 : 0
+  };
+
+  console.log("Diabetes Model Input:", data);
+
+  alert("Diabetes form ready ✅\nCheck console for data");
+});
+function goBack() {
+  window.location.href = "../dashboard.html";
+}
+</script>
+
+</body>
+</html>

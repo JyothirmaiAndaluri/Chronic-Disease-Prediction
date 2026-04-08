@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alzheimer’s Assessment</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Slider styling */
+input[type="range"] {
+  accent-color: #38bdf8;
+}
+</style>
+</head>
+
+<body class="p-6">
+
+<!-- HEADER -->
+<div class="flex items-center gap-4 mb-6">
+  <button onclick="goBack()" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">←</button>
+  <h1 class="text-2xl text-cyan-400">🧠 Alzheimer’s Assessment</h1>
+</div>
+
+<form id="form" class="space-y-6 max-w-6xl mx-auto">
+
+<!-- PROFILE -->
+<div class="card p-4 rounded-xl grid md:grid-cols-2 gap-6">
+
+  <div>
+    <label class="block mb-2">Age</label>
+    <input type="number" id="age" class="w-full p-2 bg-gray-800 rounded" required>
+  </div>
+
+  <div>
+    <label class="block mb-2">Gender</label>
+    <select id="gender" class="w-full p-2 bg-gray-800 rounded">
+      <option value="1">Male</option>
+      <option value="0">Female</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block mb-2">Ethnicity</label>
+    <select id="ethnicity" class="w-full p-2 bg-gray-800 rounded">
+      <option value="0">Caucasian</option>
+      <option value="1">African American</option>
+      <option value="2">Asian</option>
+      <option value="3">Other</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block mb-2">Education Level</label>
+    <select id="education" class="w-full p-2 bg-gray-800 rounded">
+      <option value="0">None</option>
+      <option value="1">School</option>
+      <option value="2">Graduate</option>
+      <option value="3">Postgraduate</option>
+    </select>
+  </div>
+
+  <div class="md:col-span-2">
+    <label class="block mb-2">BMI</label>
+    <input type="number" id="bmi" class="w-full p-2 bg-gray-800 rounded">
+  </div>
+
+</div>
+
+<!-- LIFESTYLE -->
+<div class="card p-4 rounded-xl grid md:grid-cols-2 gap-6">
+
+  <label><input type="checkbox" id="smoking"> Smoking</label>
+
+  <div>
+    <label class="block mb-2">Alcohol (0–20)</label>
+    <input type="number" id="alcohol" class="w-full p-2 bg-gray-800 rounded">
+  </div>
+
+  <div>
+    <label class="block mb-2">Physical Activity</label>
+    <input type="range" min="0" max="10" id="activity" class="w-full">
+  </div>
+
+  <div>
+    <label class="block mb-2">Diet Quality</label>
+    <input type="range" min="0" max="10" id="diet" class="w-full">
+  </div>
+
+  <div>
+    <label class="block mb-2">Sleep Quality</label>
+    <input type="range" min="4" max="9" id="sleep" class="w-full">
+  </div>
+
+</div>
+
+<!-- MEDICAL HISTORY -->
+<div class="card p-4 rounded-xl grid md:grid-cols-3 gap-4">
+
+  <label><input type="checkbox" id="family"> Family History</label>
+  <label><input type="checkbox" id="heart"> Heart Disease</label>
+  <label><input type="checkbox" id="diabetes"> Diabetes</label>
+  <label><input type="checkbox" id="depression"> Depression</label>
+  <label><input type="checkbox" id="injury"> Head Injury</label>
+  <label><input type="checkbox" id="bp"> High BP</label>
+
+</div>
+
+<!-- MEMORY -->
+<div class="card p-4 rounded-xl">
+  <label class="block mb-2">Memory Task Score (0–5)</label>
+  <input type="range" min="0" max="5" id="memory" class="w-full">
+</div>
+
+<!-- DAILY FUNCTION -->
+<div class="card p-4 rounded-xl grid md:grid-cols-2 gap-6">
+
+  <div>
+    <label class="block mb-2">Functional Independence</label>
+    <input type="range" min="0" max="10" id="independence" class="w-full">
+  </div>
+
+  <div>
+    <label class="block mb-2">Personal Care Ability</label>
+    <input type="range" min="0" max="10" id="care" class="w-full">
+  </div>
+
+</div>
+
+<!-- DIET -->
+<div class="card p-4 rounded-xl grid md:grid-cols-2 gap-6">
+
+  <div>
+    <label class="block mb-2">Fatty Food Frequency</label>
+    <select id="fat" class="w-full p-2 bg-gray-800 rounded">
+      <option value="0">Never</option>
+      <option value="1">Rarely</option>
+      <option value="2">Sometimes</option>
+      <option value="3">Often</option>
+      <option value="4">Daily</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block mb-2">Sugar Intake Frequency</label>
+    <select id="sugar" class="w-full p-2 bg-gray-800 rounded">
+      <option value="0">Never</option>
+      <option value="1">Rarely</option>
+      <option value="2">Sometimes</option>
+      <option value="3">Often</option>
+      <option value="4">Daily</option>
+    </select>
+  </div>
+
+</div>
+
+<!-- COGNITIVE -->
+<div class="card p-4 rounded-xl grid md:grid-cols-3 gap-4">
+
+  <label><input type="checkbox" id="memory_loss"> Memory Issues</label>
+  <label><input type="checkbox" id="behavior"> Behavior Changes</label>
+  <label><input type="checkbox" id="confusion"> Confusion</label>
+  <label><input type="checkbox" id="disorientation"> Disorientation</label>
+  <label><input type="checkbox" id="personality"> Personality Changes</label>
+  <label><input type="checkbox" id="tasks"> Difficulty Tasks</label>
+  <label><input type="checkbox" id="forget"> Forgetfulness</label>
+
+</div>
+
+<!-- SUBMIT -->
+<div class="text-center mt-6">
+  <button class="btn px-10 py-3 rounded-xl font-semibold">
+    Predict Alzheimer’s Risk
+  </button>
+</div>
+
+</form>
+
+<script>
+
+function goBack(){
+  window.location.href = "../dashboard.html";
+}
+
+document.getElementById("form").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const data = {
+    age: +age.value,
+    gender: +gender.value,
+    ethnicity: +ethnicity.value,
+    education: +education.value,
+    bmi: +bmi.value,
+
+    smoking: smoking.checked ? 1 : 0,
+    alcohol: +alcohol.value,
+    physical_activity: +activity.value,
+    diet_quality: +diet.value,
+    sleep_quality: +sleep.value,
+
+    family_history: family.checked ? 1 : 0,
+    heart_disease: heart.checked ? 1 : 0,
+    diabetes: diabetes.checked ? 1 : 0,
+    depression: depression.checked ? 1 : 0,
+    head_injury: injury.checked ? 1 : 0,
+    high_bp: bp.checked ? 1 : 0,
+
+    memory_score: +memory.value * 6,
+
+    independence: +independence.value,
+    personal_care: +care.value,
+
+    fatty_food: +fat.value,
+    sugar: +sugar.value,
+
+    memory_complaints: memory_loss.checked ? 1 : 0,
+    behavioral: behavior.checked ? 1 : 0,
+    confusion: confusion.checked ? 1 : 0,
+    disorientation: disorientation.checked ? 1 : 0,
+    personality_change: personality.checked ? 1 : 0,
+    difficulty_tasks: tasks.checked ? 1 : 0,
+    forgetfulness: forget.checked ? 1 : 0
+  };
+
+  console.log("Alzheimer Model Input:", data);
+  alert("Form working perfectly ✅");
+});
+
+</script>
+
+</body>
+</html>

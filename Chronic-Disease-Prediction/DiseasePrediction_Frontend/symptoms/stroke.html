@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stroke Risk Assessment</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body class="p-6">
+<div class="flex items-center gap-4 mb-6">
+
+  <button onclick="goBack()" 
+    class="text-xl px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-700">
+    ←
+  </button>
+
+  <h1 class="text-2xl text-cyan-400 font-semibold">
+    🫀 Stroke Risk Assessment
+  </h1>
+
+</div>
+
+<form id="form" class="grid md:grid-cols-2 gap-6">
+
+<!-- AGE -->
+<div class="card p-4 rounded-xl">
+  <label>Age</label>
+  <input type="number" id="age" min="18" max="90"
+    class="w-full p-2 mt-2 bg-gray-800 rounded" required>
+</div>
+
+<!-- SYMPTOMS -->
+<div class="card p-4 rounded-xl col-span-2">
+  <h3 class="mb-4 text-cyan-400">Symptoms</h3>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+
+    <label><input type="checkbox" id="chest_pain"> Chest Pain</label>
+    <label><input type="checkbox" id="breath"> Shortness of Breath</label>
+    <label><input type="checkbox" id="heartbeat"> Irregular Heartbeat</label>
+    <label><input type="checkbox" id="fatigue"> Fatigue / Weakness</label>
+    <label><input type="checkbox" id="dizziness"> Dizziness</label>
+    <label><input type="checkbox" id="swelling"> Swelling (Legs/Feet)</label>
+    <label><input type="checkbox" id="radiating_pain"> Neck/Jaw/Back Pain</label>
+    <label><input type="checkbox" id="sweating"> Excessive Sweating</label>
+    <label><input type="checkbox" id="cough"> Persistent Cough</label>
+    <label><input type="checkbox" id="nausea"> Nausea / Vomiting</label>
+    <label><input type="checkbox" id="bp"> High Blood Pressure</label>
+    <label><input type="checkbox" id="activity_pain"> Chest Pain (Activity)</label>
+    <label><input type="checkbox" id="cold"> Cold Hands/Feet</label>
+    <label><input type="checkbox" id="sleep"> Sleep Apnea / Snoring</label>
+    <label><input type="checkbox" id="anxiety"> Anxiety / Panic Feeling</label>
+
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="col-span-2 text-center mt-6">
+  <button type="submit" class="btn px-10 py-3 rounded-xl font-semibold">
+    Predict Stroke Risk
+  </button>
+</div>
+
+</form>
+
+<script>
+
+document.getElementById("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const data = {
+    age: +age.value,
+
+    // ✅ Mapping UI → MODEL FEATURES
+    chest_pain: chest_pain.checked ? 1 : 0,
+    shortness_of_breath: breath.checked ? 1 : 0,
+    irregular_heartbeat: heartbeat.checked ? 1 : 0,
+    fatigue: fatigue.checked ? 1 : 0,
+    dizziness: dizziness.checked ? 1 : 0,
+    swelling: swelling.checked ? 1 : 0,
+    radiating_pain: radiating_pain.checked ? 1 : 0,
+    sweating: sweating.checked ? 1 : 0,
+    persistent_cough: cough.checked ? 1 : 0,
+    nausea: nausea.checked ? 1 : 0,
+    high_bp: bp.checked ? 1 : 0,
+    activity_pain: activity_pain.checked ? 1 : 0,
+    cold_extremities: cold.checked ? 1 : 0,
+    sleep_apnea: sleep.checked ? 1 : 0,
+    anxiety: anxiety.checked ? 1 : 0
+  };
+
+  console.log("Stroke Model Input:", data);
+
+  alert("Stroke form ready ✅\nCheck console for mapped data");
+});
+function goBack() {
+  window.location.href = "../dashboard.html";
+}
+</script>
+
+</body>
+</html>
