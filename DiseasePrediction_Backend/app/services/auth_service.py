@@ -1,7 +1,14 @@
-from app.database.db import SessionLocal
-from app.database.models import User
-from app.core.security import hash_password, verify_password, create_token
+# from app.database.db import SessionLocal
+# from app.database.models import User
+# from app.core.security import hash_password, verify_password, create_token
+# from app.database.models import LoginLog
+# from app.database.db import SessionLocal
 
+
+
+from app.database.db import SessionLocal
+from app.database.models import User, LoginLog
+from app.core.security import hash_password, verify_password, create_token
 db = SessionLocal()
 
 def register_user(data):
@@ -32,7 +39,16 @@ def login_user(data):
 
     token = create_token({"email": user.email})
 
-    return {"access_token": token}
+    # ✅ ADD THIS PART (LOGIN TRACKING)
+    log = LoginLog(user_id=user.id)
+    db.add(log)
+    db.commit()
+
+    # ✅ MODIFY RETURN (ADD user_id)
+    return {
+        "access_token": token,
+        "user_id": user.id
+    }
 
 
 def forgot_password(email):

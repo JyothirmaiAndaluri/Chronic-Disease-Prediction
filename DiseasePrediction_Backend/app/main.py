@@ -10,11 +10,15 @@ from app.routes import stroke
 from app.database.db import engine
 from app.database.models import Base
 from app.routes import migraine
+
+from app.database.db import Base, engine
+from app.database.models import *
+from app.routes import analytics
+Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 # ✅ CREATE TABLES
 Base.metadata.create_all(bind=engine)
-
 # ✅ CORS
 app.add_middleware(
     CORSMiddleware,
@@ -31,7 +35,7 @@ app.include_router(diabetes.router, tags=["Diabetes"])
 app.include_router(alzheimers.router, tags=["Alzheimers"])
 app.include_router(lung.router, tags=["Lung"])   # ✅ THIS FIXES YOUR ISSUE
 app.include_router(migraine.router, tags=["Migraine"])
-
+app.include_router(analytics.router)
 # ✅ HOME
 @app.get("/")
 def home():
