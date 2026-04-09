@@ -1,40 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Result</title>
+<title>Result - PrediHealth</title>
+
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
-  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
 }
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  margin-top: 20px;
+
+.glass {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+}
+
+.btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  transition: 0.3s;
+}
+.btn:hover {
+  transform: scale(1.05);
 }
 </style>
 </head>
 
-<body class="p-4">
+<body class="p-6 max-w-5xl mx-auto">
 
-<h1 id="title" class="text-2xl text-white text-center font-bold"></h1>
+<!-- HEADER -->
+<div class="flex items-center justify-between mb-6">
 
-<div class="card text-center">
-  <h2 class="text-xl font-semibold">Risk</h2>
-  <p id="risk" class="text-3xl text-red-500"></p>
-  <p id="level"></p>
+  <div class="flex items-center gap-4">
+    <button onclick="goBack()" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">←</button>
+    <h1 id="title" class="text-2xl text-cyan-400 font-semibold"></h1>
+  </div>
+
 </div>
 
-<div class="card">
-  <h2 class="text-xl font-semibold">Clinical Details</h2>
-  <div id="details"></div>
+<!-- RISK CARD -->
+<div class="glass p-6 rounded-2xl text-center mb-6">
+
+  <p class="text-gray-400 mb-2">Risk Score</p>
+
+  <h2 id="risk" class="text-5xl font-bold text-red-400"></h2>
+
+  <p id="level" class="mt-2 text-gray-300"></p>
+
 </div>
 
+<!-- DETAILS -->
+<div class="glass p-6 rounded-2xl">
+
+  <h2 class="text-xl text-cyan-400 font-semibold mb-4">
+    Clinical Insights
+  </h2>
+
+  <div id="details" class="space-y-6 text-gray-300"></div>
+
+</div>
 
 <script>
+  function goBack() {
+  window.location.href = "dashboard.html";
+}
 const stored = JSON.parse(localStorage.getItem("result_data"));
 
 if (!stored) {

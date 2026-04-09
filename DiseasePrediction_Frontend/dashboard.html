@@ -139,6 +139,34 @@ function startPrediction(index) {
     "symptoms/migraine.html"
   ];
 
+  const diseaseNames = [
+    "Alzheimer’s",
+    "Diabetes",
+    "Stroke",
+    "Lung Cancer",
+    "Migraine"
+  ];
+
+  const userId = localStorage.getItem("user_id");
+
+  console.log("Sending:", diseaseNames[index], userId);
+
+  if (!userId) {
+    alert("User not logged in!");
+    return;
+  }
+
+  fetch("http://localhost:8000/track-disease", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: Number(userId),
+      disease: diseaseNames[index]
+    })
+  });
+
   window.location.href = pages[index];
 }
 
@@ -149,6 +177,22 @@ function goProfile() {
 function logout() {
   localStorage.removeItem("user");
   window.location.href = "index.html";
+}
+function trackDisease(diseaseName) {
+
+  const userId = localStorage.getItem("user_id");
+
+  fetch("http://localhost:8000/track-disease", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: parseInt(userId),
+      disease: diseaseName
+    })
+  });
+
 }
 
 </script>
